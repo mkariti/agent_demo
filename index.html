@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexora — AI-Powered Workflows</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --border: #1e1e2e;
+      --accent: #6c63ff;
+      --accent-light: #8b85ff;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --green: #22c55e;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--accent-light); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a { color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    nav ul a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.55rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--accent-light); transform: translateY(-1px); }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 6rem 2rem 5rem;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(108,99,255,0.12);
+      border: 1px solid rgba(108,99,255,0.3);
+      color: var(--accent-light);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.9rem;
+      border-radius: 100px;
+      margin-bottom: 1.75rem;
+      letter-spacing: 0.3px;
+    }
+    .badge::before { content: '✦'; font-size: 0.65rem; }
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.08;
+      max-width: 780px;
+      margin: 0 auto 1.5rem;
+    }
+    h1 .highlight {
+      background: linear-gradient(135deg, var(--accent-light), #a78bfa, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,0.35); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent-light); transform: translateY(-2px); }
+
+    /* SOCIAL PROOF */
+    .proof {
+      text-align: center;
+      padding: 2rem 2rem 4rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+    .proof-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+      opacity: 0.45;
+    }
+    .proof-logos span {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+
+    /* FEATURES */
+    .features {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+    .section-label {
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.8rem, 4vw, 2.75rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 0.75rem;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto 3.5rem;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover { border-color: rgba(108,99,255,0.4); transform: translateY(-3px); }
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(108,99,255,0.12);
+      border: 1px solid rgba(108,99,255,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .feature-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+
+    /* STATS */
+    .stats {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 3.5rem 2rem;
+    }
+    .stats-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      background: linear-gradient(135deg, var(--accent-light), #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { color: var(--muted); font-size: 0.875rem; margin-top: 0.25rem; }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 6rem 2rem;
+      position: relative;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(108,99,255,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      max-width: 640px;
+      margin: 0 auto 1.25rem;
+    }
+    .cta-section p { color: var(--muted); font-size: 1.05rem; margin-bottom: 2.5rem; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    footer .logo { font-size: 1rem; }
+    footer p { color: var(--muted); font-size: 0.8rem; }
+
+    /* STATUS DOT */
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--green);
+    }
+    .status::before {
+      content: '';
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Nexo<span>ra</span></div>
+    <ul>
+      <li><a href="#">Product</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Docs</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+    <button class="nav-cta">Get early access</button>
+  </nav>
+
+  <section class="hero">
+    <div class="badge">Now in private beta</div>
+    <h1>Your team's work,<br /><span class="highlight">done autonomously</span></h1>
+    <p class="hero-sub">Nexora turns Slack conversations into verified tasks — then executes them end-to-end with AI agents that write code, file tickets, and ship PRs.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Request access →</a>
+      <a href="#" class="btn-secondary">See how it works</a>
+    </div>
+  </section>
+
+  <div class="proof">
+    <span>Trusted by teams at</span>
+    <div class="proof-logos">
+      <span>Stripe</span>
+      <span>Linear</span>
+      <span>Vercel</span>
+      <span>Loom</span>
+      <span>Retool</span>
+    </div>
+  </div>
+
+  <section class="features">
+    <div class="section-label">Platform</div>
+    <h2 class="section-title">From conversation to commit</h2>
+    <p class="section-sub">Every feature your team discusses becomes trackable, executable work — without a single manual handoff.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Slack-native task detection</h3>
+        <p>Nexora listens to your channels and automatically surfaces actionable requests, routing them to the right agent for the job.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✅</div>
+        <h3>Human-in-the-loop approval</h3>
+        <p>Every detected task creates a Jira ticket first. Your team reviews, edits, and approves before a single line of code is touched.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>Specialized AI agents</h3>
+        <p>Deploy role-specific agents — frontend developer, data analyst, content writer — each scoped to the tools and repos they own.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Real GitHub PRs</h3>
+        <p>Agents don't just suggest changes. They branch, commit, and open pull requests with full descriptions and linked issues.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Scoped permissions</h3>
+        <p>Every agent operates within defined boundaries — specific repos, branches, and file types. No surprises, full auditability.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Knowledge-grounded execution</h3>
+        <p>Agents pull from your company's indexed knowledge base to stay aligned with your codebase patterns, policies, and decisions.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stats-inner">
+      <div>
+        <div class="stat-value">10×</div>
+        <div class="stat-label">faster task execution</div>
+      </div>
+      <div>
+        <div class="stat-value">94%</div>
+        <div class="stat-label">task detection accuracy</div>
+      </div>
+      <div>
+        <div class="stat-value">&lt;30s</div>
+        <div class="stat-label">Slack to open PR</div>
+      </div>
+      <div>
+        <div class="stat-value">0</div>
+        <div class="stat-label">manual handoffs</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Ready to ship faster?</h2>
+    <p>Join the waitlist and be first to automate your team's workflow.</p>
+    <a href="#" class="btn-primary">Get early access →</a>
+    <br /><br />
+    <span class="status">All systems operational</span>
+  </section>
+
+  <footer>
+    <div class="logo">Nexo<span>ra</span></div>
+    <p>© 2026 Nexora, Inc. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
